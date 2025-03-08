@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<sdf version="1.4">
+  <world name="default">
+    <!-- <physics name="4ms" type="ignored">
+      <max_step_size>0.004</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin
+        filename="ignition-gazebo-physics-system"
+        name="ignition::gazebo::systems::Physics">
+    </plugin>
+    <plugin
+        filename="ignition-gazebo-scene-broadcaster-system"
+        name="ignition::gazebo::systems::SceneBroadcaster">
+    </plugin>
+    <plugin
+        filename="ignition-gazebo-user-commands-system"
+        name="ignition::gazebo::systems::UserCommands">
+    </plugin>
+    <plugin
+        filename="ignition-gazebo-sensors-system"
+        name="ignition::gazebo::systems::Sensors">
+        <render_engine>ogre2</render_engine>
+    </plugin> -->
+
+    <light type="directional"
+      name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+      <specular>0.2 0.2 0.2 1</specular>
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+      <direction>-0.5 0.1 -0.9</direction>
+    </light>
+
+
+
+    <scene>
+      <ambient>0.8 0.5 1</ambient>
+      <grid>false</grid>
+      <sky>
+        <clouds>true</clouds>
+      </sky>
+      <shadows>1</shadows>
+    </scene>
+
+    <!-- <light name='sunUTC' type='directional'>
+      <pose>0 0 500 0 -0 0</pose>
+      <cast_shadows>false</cast_shadows>
+      <intensity>1</intensity>
+      <direction>0.001 0.625 -0.78</direction>
+      <diffuse>0.904 0.904 0.904 1</diffuse>
+      <specular>0.271 0.271 0.271 1</specular>
+      <attenuation>
+        <range>2000</range>
+        <linear>0</linear>
+        <constant>1</constant>
+        <quadratic>0</quadratic>
+      </attenuation>
+    </light> -->
+
+    <include>
+      <uri>model://brisbane</uri>
+      <pose>0 -10 13.5 0 0 0</pose>
+    </include>
+
+    <model name="ground_plane_small">
+    <static>true</static>
+    <link name="link">
+      <collision name="collision">
+        <pose>0 0 -0.025 0 0 0</pose>
+        <geometry>
+          <box>
+            <size>1 1 0.05</size>
+          </box>
+        </geometry>
+        <surface>
+          <friction>
+            <ode>
+              <mu>100</mu>
+              <mu2>50</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+    </link>
+  </model>
+    
+  </world>
+</sdf>

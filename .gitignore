@@ -1,0 +1,17 @@
+.vscode/
+build/
+devel/
+setup/
+*.pdf
+cam/
+src/mavros
+src/oldurdf
+src/px4vision
+src/pysdf
+src/realsense2_description
+src/realsense_gazebo_plugin
+src/viewframe
+frames.gv
+localization:=true
+.catkin_workspace
+

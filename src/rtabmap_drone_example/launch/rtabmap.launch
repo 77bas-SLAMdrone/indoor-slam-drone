@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<launch>
+
+    <!-- Launch slamlatest.launch in a new terminal -->
+    <include file="$(find rtabmap_drone_example)/launch/slamlatest2.launch">
+    </include>
+
+    <!-- Launch rviz.launch in a new terminal -->
+    <include file="$(find rtabmap_drone_example)/launch/rviz.launch" >
+    </include>
+    
+          
+</launch>

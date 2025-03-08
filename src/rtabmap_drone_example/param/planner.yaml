@@ -1,0 +1,11 @@
+DStarGlobalPlanner:
+    goal_distance_threshold: 0.3
+    neighbor_distance_threshold: 0.12
+    occupancy_threshold: 64
+    cutoff_distance: 16
+    trajectory_optimizer:
+        repulsion_gain: 70.0
+        potential_field_radius: 12
+    erosion:
+        enable: true
+        erosion_gap: 2

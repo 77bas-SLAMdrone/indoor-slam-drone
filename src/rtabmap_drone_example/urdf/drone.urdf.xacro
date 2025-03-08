@@ -1,0 +1,397 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="iris">
+
+  <xacro:arg name="scale" default="0.75"/>
+  <xacro:arg name="stl_path" default="mavlink_sitl_gazebo/models/iris/meshes"/>
+  <xacro:property name="scale" value="$(arg scale)" />
+  <xacro:property name="stl_path" value="$(arg stl_path)" />
+  <xacro:include filename="$(find rtabmap_drone_example)/urdf/drone.gazebo"/>
+
+   <link name='base_link'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${1.5 * scale}"/>
+        <inertia
+	  ixx="${0.0347563 * scale}" ixy="0.0" ixz="0.0"
+	  iyy="${0.0458929 * scale}" iyz="0.0"
+	  izz="${0.0977 * scale}"/>
+      </inertial>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <box size="${0.47*scale} ${0.47*scale} ${0.11*scale}"/>
+        </geometry>
+        <!--surface>
+          <contact>
+            <ode>
+              <min_depth>0.001</min_depth>
+              <max_vel>0</max_vel>
+            </ode>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface-->
+      </collision>
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh scale="${scale} ${scale} ${scale}" filename="package://${stl_path}/iris.stl"/>
+        </geometry>
+        <!--material name="base_link_material">
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material-->
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+
+    <link name='imu_link'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.015"/>
+        <inertia
+	  ixx="1e-05" ixy="0.0" ixz="0.0"
+	  iyy="1e-05" iyz="0.0"
+	  izz="1e-05"/>
+      </inertial>
+    </link>
+    <joint name='imu_joint' type='revolute'>
+      <parent link="base_link"/>
+      <child link="imu_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+      <axis xyz="0 1 0"/>
+      <limit lower="0" upper="0" effort="0" velocity="0"/>
+    </joint>
+    <link name='rotor_0'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${0.005 * scale}"/>
+        <inertia
+	  ixx="9.75e-07" ixy="0.0" ixz="0.0"
+	  iyy="0.000273104" iyz="0.0"
+	  izz="0.000274004"/>
+      </inertial>
+      <collision name='rotor_0_collision'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.005" radius="${scale*0.128}"/>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='rotor_0_visual'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh scale="${scale} ${scale} ${scale}" filename="package://${stl_path}/iris_prop_ccw.dae"/>
+        </geometry>
+        <!-- material>
+          <script>
+            <name>Gazebo/Blue</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material -->
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='rotor_0_joint' type='revolute'>
+      <parent link="base_link"/>
+      <child link="rotor_0"/>
+      <origin xyz="${scale*0.13} ${scale*-0.22} ${scale*0.023}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-1e+16" upper="1e+16" effort="0" velocity="0"/>
+    </joint>
+    <link name='rotor_1'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${0.005 * scale}"/>
+        <inertia
+	  ixx="9.75e-07" ixy="0.0" ixz="0.0"
+	  iyy="0.000273104" iyz="0.0"
+	  izz="0.000274004"/>
+      </inertial>
+      <collision name='rotor_1_collision'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.005" radius="${scale*0.128}"/>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='rotor_1_visual'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh scale="${scale} ${scale} ${scale}" filename="package://${stl_path}/iris_prop_ccw.dae"/>
+        </geometry>
+        <!-- material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material -->
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='rotor_1_joint' type='revolute'>
+      <parent link="base_link"/>
+      <child link="rotor_1"/>
+      <origin xyz="${scale*-0.13} ${scale*0.2} ${scale*0.023}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-1e+16" upper="1e+16" effort="0" velocity="0"/>
+    </joint>
+    <link name='rotor_2'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${0.005 * scale}"/>
+        <inertia
+	  ixx="9.75e-07" ixy="0.0" ixz="0.0"
+	  iyy="0.000273104" iyz="0.0"
+	  izz="0.000274004"/>
+      </inertial>
+      <collision name='rotor_2_collision'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.005" radius="${scale*0.128}"/>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='rotor_2_visual'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh scale="${scale} ${scale} ${scale}" filename="package://${stl_path}/iris_prop_cw.dae"/>
+        </geometry>
+        <!-- material>
+          <script>
+            <name>Gazebo/Blue</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material -->
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='rotor_2_joint' type='revolute'>
+      <parent link="base_link"/>
+      <child link="rotor_2"/>
+      <origin xyz="${scale*0.13} ${scale*0.22} ${scale*0.023}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-1e+16" upper="1e+16" effort="0" velocity="0"/>
+    </joint>
+    <link name='rotor_3'>
+      <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="${0.005 * scale}"/>
+        <inertia
+	  ixx="9.75e-07" ixy="0.0" ixz="0.0"
+	  iyy="0.000273104" iyz="0.0"
+	  izz="0.000274004"/>
+      </inertial>
+      <collision name='rotor_3_collision'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <cylinder length="0.005" radius="${scale*0.128}"/>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='rotor_3_visual'>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh scale="${scale} ${scale} ${scale}" filename="package://${stl_path}/iris_prop_cw.dae"/>
+        </geometry>
+        <!-- material>
+          <script>
+            <name>Gazebo/DarkGrey</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material-->
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='rotor_3_joint' type='revolute'>
+      <parent link="base_link"/>
+      <child link="rotor_3"/>
+      <origin xyz="${scale*-0.13} ${scale*-0.2} ${scale*0.023}" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit lower="-1e+16" upper="1e+16" effort="0" velocity="0"/>
+    </joint>
+
+  <joint name="imu_body_joint" type="fixed">
+    <origin xyz="0.0 0 0.0" rpy="0 0 0" /> 
+    <parent link="base_link"/>
+    <child link="imu_body_link" />
+  </joint>
+  <link name='imu_body_link'>
+     <inertial>
+       <origin xyz="0 0 0" rpy="0 0 0"/>
+       <mass value="0.00001"/>
+       <inertia
+	  ixx="1e-05" ixy="0.0" ixz="0.0"
+	  iyy="1e-05" iyz="0.0"
+	  izz="1e-05"/>
+       </inertial>
+  </link>
+  <gazebo reference="imu_body_link">
+      <sensor name="imu_body_sensor" type="imu">
+        <plugin filename="libgazebo_ros_imu_sensor.so" name="imu_body_plugin">
+          <topicName>body_imu/data_raw</topicName>
+          <bodyName>imu_body_link</bodyName>
+          <updateRateHZ>100</updateRateHZ>
+          <gaussianNoise>0.01</gaussianNoise>
+          <xyzOffset>0 0 0</xyzOffset>
+          <rpyOffset>0 0 0</rpyOffset>
+          <frameName>imu_body_link</frameName>
+        </plugin>
+      </sensor>
+  </gazebo>
+
+<joint name="lidar_joint" type="fixed">
+  <origin xyz="0.055 0.0 0.02" rpy="0.0 -4.7124  0.0" /> <!-- PITCH_270 corresponds to downward-facing -->
+  <parent link="base_link" />
+  <child link="lidar_link" />
+</joint>
+
+<link name="lidar_link">
+  <inertial>
+    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0" />
+    <mass value="0.2" />
+    <inertia
+      ixx="0.0001" ixy="0.0" ixz="0.0"
+      iyy="0.0001" iyz="0.0"
+      izz="0.0001" />
+  </inertial>
+</link>
+
+<gazebo reference="lidar_link">
+  <sensor name="lidar_sensor" type="ray">
+    <update_rate>10</update_rate>
+    <ray>
+      <scan>
+        <horizontal>
+          <samples>1</samples> <!-- Single measurement point -->
+          <resolution>1</resolution>
+          <min_angle>0.0</min_angle>
+          <max_angle>0.0</max_angle> <!-- No scanning, single direction -->
+        </horizontal>
+      </scan>
+      <range>
+        <min>0.1</min>
+        <max>10.0</max> <!-- Adjust based on your desired max range -->
+        <resolution>0.01</resolution>
+      </range>
+      <noise>
+          <type>none</type> <!-- Remove noise for debugging -->
+      </noise>
+    </ray>
+    <plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
+      <topicName>/mavros/distance_sensor/hrlv_ez4_pub</topicName>
+      <frameName>hrlv_ez4_sonar</frameName>
+      <sensorPosition>
+        <x>0.0</x>
+        <y>0.0</y>
+        <z>0</z>
+      </sensorPosition>
+    </plugin>
+  </sensor>
+
+
+</gazebo>
+
+
+
+  <!-- Import macro for realsense-RS200 camera-->
+   <!-- <xacro:include filename="$(find rtabmap_drone_example)/urdf/realsense-RS200.macro.xacro"/> -->
+  <!-- <xacro:include filename="$(find rtabmap_drone_example)/urdf/_d435.urdf.xacro"/> -->
+    
+   <!-- <joint name="base_camera_joint" type="fixed">
+    <origin xyz="${scale*0.1} 0 0" rpy="0 0 0" /> 
+    <parent link="base_link"/>
+    <child link="base_camera" />
+  </joint> 
+
+   <link name='base_camera'/>  -->
+
+  <!-- Create camera instance -->
+    <!-- <xacro:realsense-rs200 prefix="" parent="base_camera">
+        <origin xyz="0 0 0" rpy="0 0 0" />   
+  </xacro:realsense-rs200> -->
+  
+   <!-- <xacro:sensor_d435 name="realsense_d435" topics_ns="camera" parent="base_link" > -->
+    <!-- <origin xyz="0 0 0" rpy="0 0 0" /> 
+  </xacro:sensor_d435> --> -->
+
+   <!-- D435 WORKING-->
+
+
+
+ <xacro:include filename="$(find rtabmap_drone_example)/urdf/_d435.urdf.xacro"/> 
+  <xacro:sensor_d435  parent="base_link" name="D435_camera" topics_ns="D435_camera" enable_pointCloud="true" >
+    <origin xyz="0.05 0 0.02" rpy="0.0 0.0 0.0"/>
+  </xacro:sensor_d435> 
+
+
+  <!-- D435 WORKING-->
+<!-- <xacro:include filename="$(find rtabmap_drone_example)/urdf/lidar.urdf.xacro" />
+  <xacro:lidar name="lidar" parent="base_link">
+    <origin xyz="-0.051 0 0.02" rpy="0 0 0"/>
+  </xacro:lidar> -->
+
+
+
+
+<!-- <joint name="camera_joint" type="fixed">
+    <origin xyz="0.05 0 0.02" rpy="0 0 0"/>
+    <parent link="base_link"/>
+    <child link="realsense_link"/>
+  </joint>
+
+  <link name="realsense_link">
+    <visual>
+     <origin xyz="0 0 0" rpy="1.57 0 1.57"/>
+    </visual>
+  </link>
+  <xacro:include filename="/home/samim/catkin_ws/src/rtabmap_drone_example/urdf/_d435.urdf.xacro" />
+  <xacro:sensor_d435 parent="realsense_link" name="d435" topics_ns="d435">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:sensor_d435> -->
+
+
+<!--xacro:include filename="$(find rtabmap_drone_example)/urdf/_d435.urdf.xacro"/>-->
+
+
+
+
+
+
+</robot>
